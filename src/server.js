@@ -4,6 +4,9 @@ import path from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import { fileURLToPath } from "url";
+import dotenv from "dotenv/config"
+
+
 
 const app = express();
 const PORT = 3000;
