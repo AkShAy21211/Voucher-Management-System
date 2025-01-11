@@ -1,45 +1,62 @@
 import createError from "http-errors";
 import express from "express";
 import path from "path";
-import cookieParser from "cookie-parser";
+import session from "express-session";
 import logger from "morgan";
 import { fileURLToPath } from "url";
-import dotenv from "dotenv/config"
+import dotenv from "dotenv/config";
+import expressLayouts  from "express-ejs-layouts";
+import CONFIG from "./config/index.js";
+import flash from "connect-flash";
 
+// Import routes
+import authRouter from "./routes/auth.js";
+import errorRoute from "./routes/error.js";
 
 
 const app = express();
 const PORT = 3000;
+const host = "0.0.0.0"; // This binds the server to all available IP addresses
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // View engine setup
-app.set("views", path.join(__dirname, "views"));
+app.set("views",path.join(__dirname,"../views"));
 app.set("view engine", "ejs");
+app.use(expressLayouts);
+app.set('layout', 'layout');  
+
+// Set up session middleware
+app.use(
+  session({
+    secret: CONFIG.SESSION_SECREAT,
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+
 
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "../public")));
+app.use(flash());
 
-// Catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  next(createError(404));
+app.use("/", authRouter);
+app.use("/dashboard", authRouter)
+
+
+// error handler
+app.use("*",errorRoute);
+
+app.use((req, res, next) => {
+  res.locals.error = req.flash('error') || [];
+  res.locals.success = req.flash('success') || [];
+  next();
 });
 
-// Error handler
-app.use(function (err, req, res, next) {
-  // Set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
 
-  // Render the error page
-  res.status(err.status || 500);
-  res.render("error");
-});
-
-app.listen(PORT, () => {
+app.listen(PORT, host, () => {
   console.log(`Server is running on port ${PORT}`);
 });

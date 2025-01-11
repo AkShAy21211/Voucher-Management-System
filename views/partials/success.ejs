@@ -1,0 +1,23 @@
+<% if (success && success.length>0 ) { %>
+<div
+  class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4"
+  id="success"
+  role="alert"
+>
+  <!-- <strong class="font-bold">Success!</strong> -->
+  <span class="block sm:inline"><%= success %></span>
+</div>
+<% } %>
+
+<script>
+  // Auto-dismiss success message after 5 seconds
+  setTimeout(() => {
+    const success = document.getElementById("success");
+    if (success) {
+      success.style.transition = "opacity 0.5s ease-out";
+      success.style.opacity = 0;
+      setTimeout(() => success.remove(), 500);
+    }
+  }, 5000);
+
+</script>
