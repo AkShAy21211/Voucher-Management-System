@@ -97,7 +97,7 @@
     .getElementById("generateQR")
     .addEventListener("click", async function () {
       const response = await fetch(
-        "http://192.168.1.2:3000/dashboard/generate-qr",
+        "/dashboard/generate-qr",
         {
           method: "POST",
           headers: {
