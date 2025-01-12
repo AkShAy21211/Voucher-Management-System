@@ -6,7 +6,7 @@ const pool = mysql
   .createPool({
     host: CONFIG.DB_HOST,
     user: CONFIG.DB_USER,
-    port:CONFIG.PORT,
+    port:CONFIG.DB_PORT,
     password: CONFIG.DB_PASSWORD,
     database: CONFIG.DB_NAME,
   })
