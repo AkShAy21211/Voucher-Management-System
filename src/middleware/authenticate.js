@@ -1,10 +1,9 @@
 function isAuthenticated(req, res, next) {
-  console.log(req.session.user);
-  
-  if (req.session.user.isAuthenticated) {
+
+  if (req.session.user && req.session.user.isAuthenticated) {
     next();
   } else {
-    return res.redirect(401,"/");
+    return res.redirect("/sign-in");
   }
 }
 

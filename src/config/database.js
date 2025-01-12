@@ -1,7 +1,6 @@
 import mysql from "mysql2";
 import CONFIG from "./index.js";
 
-console.log(CONFIG);
 
 const pool = mysql
   .createPool({

@@ -1,4 +1,4 @@
-import { loginErrors, registerErrors } from "../constants/errorMessages.js";
+import { loginMessages, registerMessages } from "../constants/messages.js";
 import {
   createNewUser,
   findUserByEmail,
@@ -24,28 +24,25 @@ export const login = async (req, res) => {
   const TITLE = "login";
 
   console.log(req.session);
-  
+
   return res.render("pages/login", {
     TITLE,
     success: req.flash("success"),
     error: req.flash("error"),
-    
   });
 };
-
-
 
 export const registerPost = async (req, res) => {
   const { username, email, password, confirmPassword } = req.body;
 
   // Check if password and confirm password match
   if (!username || !email || !password || !confirmPassword) {
-    req.flash("error", registerErrors.allFieldsRequired);
+    req.flash("error", registerMessages.allFieldsRequired);
     return res.redirect("/sign-up");
   }
 
   if (password !== confirmPassword) {
-    req.flash("error", registerErrors.passwordsDoNotMatch);
+    req.flash("error", registerMessages.passwordsDoNotMatch);
     return res.redirect("/sign-up");
   }
 
@@ -72,21 +69,21 @@ export const loginPost = async (req, res) => {
 
   // Check if password and confirm password match
   if (!username || !password) {
-    req.flash("error", loginErrors.allFieldsRequired);
+    req.flash("error", loginMessages.allFieldsRequired);
     return res.redirect("/sign-in");
   }
 
   const data = await findUserByUsername(username);
 
   if (!data.success) {
-    req.flash("error", loginErrors.userNotFoundError);
+    req.flash("error", loginMessages.userNotFoundError);
     return res.redirect("/sign-in");
   }
 
   const validPassword = await comparePassword(password, data.user[0].password);
 
   if (!validPassword) {
-    req.flash("error", loginErrors.incorrectCredentials);
+    req.flash("error", loginMessages.incorrectCredentials);
     return res.redirect("/sign-in");
   }
 
@@ -96,12 +93,9 @@ export const loginPost = async (req, res) => {
     username: data.user[0].username,
     email: data.user[0].email,
   };
+  req.session.save();
 
-  console.log(res.locals);
-
-  console.log(req.session);
-
-  req.flash("success", loginErrors.loginSuccess);
+  req.flash("success", loginMessages.loginSuccess);
   return res.redirect("/dashboard");
 };
 

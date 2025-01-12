@@ -1,4 +1,4 @@
-export const registerErrors = {
+export const registerMessages = {
   allFieldsRequired: "All fields are required",
   passwordsDoNotMatch: "Passwords do not match",
   registrationSuccess: "Registration successful",
@@ -8,12 +8,21 @@ export const registerErrors = {
   userNameAvailable: "User name available",
 };
 
-export const loginErrors = {
-  allFieldsRequired:"All fields are required",
+export const loginMessages = {
+  allFieldsRequired: "All fields are required",
   incorrectCredentials: "Incorrect email or password",
   loginSuccess: "Login successful",
   loginFailed: "Failed to login user",
   userNotFoundError: "User not found",
   sessionExpired: "Session expired",
+};
 
+export const voucherMessages = {
+  voucherCreated: "Voucher created successfully",
+  voucherCreationFailed: "Failed to create voucher",
+  voucherUpdated: "Voucher updated successfully",
+  voucherUpdateFailed: "Failed to update voucher",
+  voucherDeleted: "Voucher deleted successfully",
+  voucherDeleteFailed: "Failed to delete voucher",
+  voucherNotFound: "Voucher not found",
 };

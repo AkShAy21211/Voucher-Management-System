@@ -8,11 +8,11 @@ CREATE TABLE users (
 
 CREATE TABLE vouchers (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  voucher_code VARCHAR(10) NOT NULL UNIQUE,
+  voucher_code VARCHAR(10) NOT NULL UNIQUE,     -- The actual numeric voucher code
+  qr_code_path VARCHAR(255) NOT NULL,           -- The relative path to the QR code image
   generated_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   expiry_date DATETIME NOT NULL,
-  qr_code TEXT NOT NULL,
-  user_id INT,
+  user_id INT,                                  -- Foreign key to link with users table
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 

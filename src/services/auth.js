@@ -1,6 +1,6 @@
 import pool from "../config/database.js";
 import { hashPassword } from "../utils/bcrypt.js";
-import { registerErrors } from "../constants/errorMessages.js";
+import { registerMessages } from "../constants/messages.js";
 
 export const createNewUser = async (username, email, password) => {
   const hashedPassword = await hashPassword(password, 10);
@@ -13,12 +13,12 @@ export const createNewUser = async (username, email, password) => {
   if (user) {
     return {
       success: true,
-      message: registerErrors.registrationSuccess,
+      message: registerMessages.registrationSuccess,
     };
   }
   return {
     success: false,
-    message: registerErrors.registrationFailed,
+    message: registerMessages.registrationFailed,
   };
 };
 
@@ -30,7 +30,7 @@ export const findUserByEmail = async (email) => {
   if (user.length) {
     return {
       success: true,
-      message: registerErrors.userFoundError,
+      message: registerMessages.userFoundError,
     };
   }
   return {
@@ -48,11 +48,11 @@ export const findUserByUsername = async (username) => {
     return {
       success: true,
       user,
-      message: registerErrors.userNameTakenError,
+      message: registerMessages.userNameTakenError,
     };
   }
   return {
     success: false,
-    message: registerErrors.userNameAvailable,
+    message: registerMessages.userNameAvailable,
   };
 };

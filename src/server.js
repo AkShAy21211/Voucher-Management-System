@@ -11,6 +11,7 @@ import flash from "connect-flash";
 
 // Import routes
 import authRouter from "./routes/auth.js";
+import dashboardRouter from "./routes/dashboard.js";
 import errorRoute from "./routes/error.js";
 
 
@@ -33,6 +34,7 @@ app.use(
     secret: CONFIG.SESSION_SECREAT,
     resave: false,
     saveUninitialized: true,
+    
   })
 );
 
@@ -44,7 +46,7 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.use(flash());
 
 app.use("/", authRouter);
-app.use("/dashboard", authRouter)
+app.use("/dashboard", dashboardRouter)
 
 
 // error handler
