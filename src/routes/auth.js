@@ -24,7 +24,7 @@ router.post("/sign-up", isLoggedOut, asyncHandler(registerPost));
 
 router.post("/sign-in", isLoggedOut, asyncHandler(loginPost));
 
-router.get("/sign-out", isLoggedOut, isAuthenticated, asyncHandler(logout));
+router.get("/sign-out", isAuthenticated, asyncHandler(logout));
 
 router.get("/check-username", isLoggedOut, asyncHandler(checkUserName));
 
