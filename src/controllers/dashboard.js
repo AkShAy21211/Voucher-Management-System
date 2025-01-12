@@ -15,7 +15,6 @@ export const dashboard = async (req, res) => {
   const user_id = req.session?.user?.id;
   const { vouchers } = await getAllVouchers(user_id);
 
-  
   return res.render("pages/dashboard", {
     TITLE,
     vouchers,
@@ -106,14 +105,15 @@ export const generateAndPrintVocherPdf = async (req, res) => {
   const { settings } = await getVoucherSettings(user_id);
   const { voucher } = await getVloucherByNumber(voucherNumber);
 
+
+
   generatePDF(
     voucher?.voucher_code,
     voucher?.expiry_date,
     voucher?.generated_date,
-
     settings?.title,
-    settings?.width_mm,
-    settings?.height_mm,
+    parseInt(settings?.width_mm),
+    parseInt(settings?.height_mm),
     settings?.title_font,
     settings?.text_font
   ).then((pdfBuffer) => {
@@ -134,9 +134,9 @@ export const deleteVoucher = async (req, res) => {
 
   if (data.success) {
     req.flash("success", data.message);
-    return res.status(200).json(data)
+    return res.status(200).json(data);
   }
 
   req.flash("error", data.message);
-  return res.status(400).json(data)
+  return res.status(400).json(data);
 };

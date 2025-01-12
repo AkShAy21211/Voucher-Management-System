@@ -24,13 +24,13 @@ form.addEventListener("submit", async (event) => {
     isValid = false;
   }
 
-  if (width <= 0) {
-    showError("widthError", "Width must be greater than 0.");
+  if (width < 30) {
+    showError("widthError", "Width must be greater than or equal 30.");
     isValid = false;
   }
 
-  if (height <= 0) {
-    showError("heightError", "Height must be greater than 0.");
+  if (height < 40) {
+    showError("heightError", "Height must be greater than or equal 40.");
     isValid = false;
   }
 
