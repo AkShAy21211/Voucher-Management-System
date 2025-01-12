@@ -16,6 +16,19 @@ const generatePDF = (
   titleSize,
   textSize
 ) => {
+
+
+  console.log({
+    voucherNumber,
+    expiryDate,
+    generatedDate,
+    title,
+    pageW,
+    pageH,
+    titleSize,
+    textSize,
+  });
+  
   return new Promise((resolve, reject) => {
     const doc = new PDFDocument({
       size: [pageW, pageH],

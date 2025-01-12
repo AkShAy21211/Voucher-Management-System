@@ -22,7 +22,6 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
   const TITLE = "login";
-  console.log(res.locals);
 
   return res.render("pages/login", {
     TITLE,
