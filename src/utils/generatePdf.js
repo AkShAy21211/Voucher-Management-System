@@ -8,40 +8,38 @@ const __dirname = path.dirname(__filename);
 
 const generatePDF = (
   voucherNumber,
-  title,
   expiryDate,
+  generatedDate,
+  title,
   pageW,
   pageH,
   titleSize,
   textSize
 ) => {
-  console.log(__dirname);
-
   return new Promise((resolve, reject) => {
     const doc = new PDFDocument({
-      size: [pageW, pageH], 
+      size: [pageW, pageH],
     });
 
     const streamPath = path.join(
       __dirname,
       `../../public/pdfs/${voucherNumber}.pdf`
     );
-    console.log({ streamPath });
 
     const stream = fs.createWriteStream(streamPath);
 
     doc.pipe(stream);
 
     doc.fontSize(titleSize).text(title, { align: "center", underline: true });
-    doc.moveDown(1); 
+    doc.moveDown(1);
 
     doc
       .fontSize(textSize)
 
-      .text(`Generated on: ${new Date().toLocaleDateString()}`, {
+      .text(`Generated on: ${new Date(generatedDate).toLocaleDateString()}`, {
         align: "center",
       });
-    doc.moveDown(1); 
+    doc.moveDown(1);
 
     const qrImagePath = path.join(
       __dirname,
@@ -53,21 +51,21 @@ const generatePDF = (
 
     const pageWidth = doc.page.width;
     const xPosition = (pageWidth - qrCodeWidth) / 2;
-
-    // Add QR code (ensure the path is correct)
+   
+    //change pdf bg color
     doc.image(qrImagePath, xPosition, doc.y, {
       width: qrCodeWidth,
       height: qrCodeHeight,
     });
-    doc.moveDown(0.2); 
+    doc.moveDown(0.1);
 
-    doc.fontSize(textSize).text(`Expiry Date: ${expiryDate}`, {
+    doc.fontSize(textSize).text(`Expiry Date: ${new Date(expiryDate).toLocaleDateString()}`, {
       align: "center",
     });
 
     doc.end();
 
-    stream.on("finish", () => resolve(stream.path)); // Return the PDF path when done
+    stream.on("finish", () => resolve(stream.path)); 
     stream.on("error", reject);
   });
 };

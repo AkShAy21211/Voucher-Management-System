@@ -18,6 +18,7 @@ export const loginMessages = {
 };
 
 export const voucherMessages = {
+  allFieldsRequired: "All fields are required",
   voucherCreated: "Voucher created successfully",
   voucherCreationFailed: "Failed to create voucher",
   voucherUpdated: "Voucher updated successfully",
@@ -25,4 +26,11 @@ export const voucherMessages = {
   voucherDeleted: "Voucher deleted successfully",
   voucherDeleteFailed: "Failed to delete voucher",
   voucherNotFound: "Voucher not found",
+  voucherSettingsCreated: "Voucher settings created successfully",
+  voucherSettingsCreationFailed: "Failed to create voucher settings",
+  voucherSettingsUpdated: "Voucher settings updated successfully",
+  voucherSettingsUpdateFailed: "Failed to update voucher settings",
+  voucherSettingsNotFound: "Voucher settings not found",
+  voucherSettingsDeleted: "Voucher settings deleted successfully",
 };
+

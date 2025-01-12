@@ -1,4 +1,11 @@
-import { createNewVoucher, getAllVouchers } from "../services/voucher.js";
+import { voucherMessages } from "../constants/messages.js";
+import {
+  createNewVoucher,
+  createVoucherSettings,
+  getAllVouchers,
+  getVloucherByNumber,
+  getVoucherSettings,
+} from "../services/voucher.js";
 import generatePDF from "../utils/generatePdf.js";
 import { generateQr } from "../utils/qr.js";
 
@@ -15,20 +22,54 @@ export const dashboard = async (req, res) => {
   });
 };
 
-
 export const settings = async (req, res) => {
   const TITLE = "settings";
+  const user_id = req.session?.user?.id;
+
+  const settings = await getVoucherSettings(user_id);
 
   return res.render("pages/settings", {
     TITLE,
+    settings,
     success: req.flash("success"),
     error: req.flash("error"),
   });
 };
 
-export const generateQrPost = async (req, res) => {
-  const { voucher_code, qr_code_path, expiry_date } = await generateQr();
+export const settingsPost = async (req, res) => {
+  const { title, expiryTime, width, height, titleFontSize, textFontSize } =
+    req.body;
   const user_id = req.session?.user?.id;
+
+  if (!expiryTime || !width || !height || !titleFontSize || !textFontSize) {
+    req.flash("error", voucherMessages.allFieldsRequired);
+    return res.redirect("/dashboard/settings");
+  }
+
+  const voucher = await createVoucherSettings(
+    title,
+    expiryTime,
+    width,
+    height,
+    titleFontSize,
+    textFontSize,
+    user_id
+  );
+
+  if (voucher.success) {
+    req.flash("success", voucher.message);
+    return res.redirect("/dashboard/settings");
+  }
+};
+
+export const generateQrPost = async (req, res) => {
+  const user_id = req.session?.user?.id;
+
+  const { settings } = await getVoucherSettings(user_id);
+
+  const { voucher_code, qr_code_path, expiry_date } = await generateQr(
+    settings.expiry_days
+  );
 
   if (!voucher_code || !expiry_date || !qr_code_path) {
     req.flash("error", "Failed to generate QR code");
@@ -51,15 +92,21 @@ export const generateQrPost = async (req, res) => {
 
 export const generateAndPrintVocherPdf = async (req, res) => {
   const { voucherNumber } = req.params;
-  // Generate PDF for the voucher
+  const user_id = req.session?.user?.id;
+
+  const { settings } = await getVoucherSettings(user_id);
+  const { voucher } = await getVloucherByNumber(voucherNumber);
+
   generatePDF(
-    voucherNumber,
-    "Voucher Title",
-    "2025-01-01",
-    300,
-    500,
-    18,
-    12
+    voucher?.voucher_code,
+    voucher?.expiry_date,
+    voucher?.generated_date,
+
+    settings?.title,
+    settings?.width_mm,
+    settings?.height_mm,
+    settings?.title_font,
+    settings?.text_font
   ).then((pdfBuffer) => {
     res.contentType("application/pdf");
     res.download(pdfBuffer, (err) => {

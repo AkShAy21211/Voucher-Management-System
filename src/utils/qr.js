@@ -6,7 +6,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 
-export const generateQr = async (user_id) => {
+export const generateQr = async (expiry_days) => {
   // 1. Generate a 10-digit random number
   const voucherNumber = Math.floor(1000000000 + Math.random() * 9000000000);
 
@@ -19,7 +19,7 @@ export const generateQr = async (user_id) => {
 
   // 4. Calculate the expiry date (1 day from now)
   const expiryDate = new Date();
-  expiryDate.setDate(expiryDate.getDate() + 1);
+  expiryDate.setDate(expiryDate.getDate() + expiry_days);
 
   
   return {

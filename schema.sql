@@ -19,6 +19,8 @@ CREATE TABLE vouchers (
 
 CREATE TABLE settings (
   id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
   title VARCHAR(100) NOT NULL,
   expiry_days INT NOT NULL,
   width_mm INT NOT NULL,
