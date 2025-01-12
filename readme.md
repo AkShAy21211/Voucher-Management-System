@@ -94,15 +94,20 @@ npm start
 #### 1. Login System
 Users can log in with hardcoded credentials or a database.
 Session management with express-session.
+![Screenshot 2025-01-12 191312](https://github.com/user-attachments/assets/49a59085-90ed-4f99-ae42-c150336c9ecf)
+![Screenshot 2025-01-12 191304](https://github.com/user-attachments/assets/25bb7ada-20b1-44da-be71-49b94207ddb5)
 #### 2. Dashboard
 View a list of vouchers.
 Generate a QR code for a voucher.
+![Screenshot 2025-01-12 200413](https://github.com/user-attachments/assets/30442722-3b39-4bc2-b57c-5b2f048e80ad)
 #### 3. Generate QR Code
 Click a button to generate a random 10-digit code and create a QR code.
 #### 4. Settings Page
 Users can set expiry time, voucher dimensions, and font sizes.
+![Screenshot 2025-01-12 200431](https://github.com/user-attachments/assets/a366272d-1f09-4e51-a009-a05c1ea2e74c)
 #### 5. PDF Generation
 Export vouchers as PDF files with the voucher's details and QR code.
+![Screenshot 2025-01-12 200452](https://github.com/user-attachments/assets/cc1cb616-5e91-499f-8d5e-3706e323ee70)
 #### 6. Print Voucher
 Print the generated PDF voucher directly.
 
