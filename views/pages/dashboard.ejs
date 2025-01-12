@@ -41,7 +41,7 @@
           </h3>
           <button
             class="bg-green-500 text-white py-1 px-4 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
-            onclick="window.location.href='/print-voucher/1234567890'"
+            onclick="downloadVoucherPDF('<%= voucher.voucher_code %>')"
           >
             Print PDF
           </button>
@@ -68,7 +68,6 @@
   </section>
 </main>
 
-<!-- Tailwind CSS for Modals or Additional Popups -->
 <script>
   const qrMessage = document.getElementById("qrMessage");
 
@@ -96,4 +95,10 @@
         setTimeout(() => qrMessage.remove(), 5000);
       }
     });
+
+
+  function downloadVoucherPDF(voucherNumber) {
+    // Send an HTTP GET request to the backend route that generates and serves the PDF
+    window.location.href = `/dashboard/print-voucher/${voucherNumber}`;
+  }
 </script>

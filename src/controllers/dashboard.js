@@ -1,12 +1,12 @@
 import { createNewVoucher, getAllVouchers } from "../services/voucher.js";
+import generatePDF from "../utils/generatePdf.js";
 import { generateQr } from "../utils/qr.js";
 
 export const dashboard = async (req, res) => {
   const TITLE = "dashboard";
   const user_id = req.session?.user?.id;
-  const {vouchers} = await getAllVouchers(user_id);
+  const { vouchers } = await getAllVouchers(user_id);
 
-  
   return res.render("pages/dashboard", {
     TITLE,
     vouchers,
@@ -36,4 +36,26 @@ export const generateQrPost = async (req, res) => {
   }
 
   return res.status(400).json(voucher);
+};
+
+export const generateAndPrintVocherPdf = async (req, res) => {
+  const { voucherNumber } = req.params;
+  // Generate PDF for the voucher
+  generatePDF(
+    voucherNumber,
+    "Voucher Title",
+    "2025-01-01",
+    300,
+    500,
+    18,
+    12
+  ).then((pdfBuffer) => {
+    res.contentType("application/pdf");
+    res.download(pdfBuffer, (err) => {
+      if (err) {
+        console.error("Error sending file:", err);
+        res.status(500).send("Failed to download the PDF.");
+      }
+    });
+  });
 };
