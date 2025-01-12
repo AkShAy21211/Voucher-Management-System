@@ -165,3 +165,24 @@ export const createVoucherSettings = async (
     };
   }
 };
+
+
+export const deleteVoucherById = async (voucher_id) => {
+  try {
+    const deleteQuery = "DELETE FROM vouchers WHERE id =?";
+    const [result] = await pool.execute(deleteQuery, [voucher_id]);
+
+    if (result.affectedRows > 0) {
+      return {
+        success: true,
+        message: voucherMessages.voucherDeleted,
+      };
+    }
+    return {
+      success: false,
+      message: voucherMessages.voucherNotDeleted,
+    };
+  } catch (error) {
+    console.error("Error deleting voucher:", error);
+  }
+}

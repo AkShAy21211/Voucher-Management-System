@@ -2,6 +2,7 @@ import { voucherMessages } from "../constants/messages.js";
 import {
   createNewVoucher,
   createVoucherSettings,
+  deleteVoucherById,
   getAllVouchers,
   getVloucherByNumber,
   getVoucherSettings,
@@ -14,6 +15,7 @@ export const dashboard = async (req, res) => {
   const user_id = req.session?.user?.id;
   const { vouchers } = await getAllVouchers(user_id);
 
+  
   return res.render("pages/dashboard", {
     TITLE,
     vouchers,
@@ -68,7 +70,9 @@ export const generateQrPost = async (req, res) => {
   const data = await getVoucherSettings(user_id);
 
   if (!data.success) {
-    return res.status(400).json({...data,message:voucherMessages.voucherSettingsNotFound});
+    return res
+      .status(400)
+      .json({ ...data, message: voucherMessages.voucherSettingsNotFound });
   }
   const { settings } = data;
 
@@ -121,4 +125,18 @@ export const generateAndPrintVocherPdf = async (req, res) => {
       }
     });
   });
+};
+
+export const deleteVoucher = async (req, res) => {
+  const { voucherId } = req.params;
+
+  const data = await deleteVoucherById(voucherId);
+
+  if (data.success) {
+    req.flash("success", data.message);
+    return res.status(200).json(data)
+  }
+
+  req.flash("error", data.message);
+  return res.status(400).json(data)
 };

@@ -1,6 +1,7 @@
 import express from "express";
 import {
   dashboard,
+  deleteVoucher,
   generateAndPrintVocherPdf,
   generateQrPost,
   settings,
@@ -19,6 +20,8 @@ router.get(
   isAuthenticated,
   asyncHandler(generateAndPrintVocherPdf)
 );
+
+router.delete("/voucher/:voucherId", isAuthenticated,asyncHandler(deleteVoucher))
 
 router
   .route("/settings")

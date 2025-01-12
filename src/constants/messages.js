@@ -32,5 +32,6 @@ export const voucherMessages = {
   voucherSettingsUpdateFailed: "Failed to update voucher settings",
   voucherSettingsNotFound: "Missing voucher settings please add", 
   voucherSettingsDeleted: "Voucher settings deleted successfully",
+  voucherNotDeleted:"Voucher not deleted"
 };
 
