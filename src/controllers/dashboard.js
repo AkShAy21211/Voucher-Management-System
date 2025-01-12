@@ -26,8 +26,9 @@ export const settings = async (req, res) => {
   const TITLE = "settings";
   const user_id = req.session?.user?.id;
 
-  const settings = await getVoucherSettings(user_id);
+  const {settings} = await getVoucherSettings(user_id);
 
+  
   return res.render("pages/settings", {
     TITLE,
     settings,

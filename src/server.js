@@ -1,13 +1,12 @@
-import createError from "http-errors";
 import express from "express";
 import path from "path";
 import session from "express-session";
-import logger from "morgan";
 import { fileURLToPath } from "url";
 import dotenv from "dotenv/config";
 import expressLayouts from "express-ejs-layouts";
 import CONFIG from "./config/index.js";
 import flash from "connect-flash";
+import helmet from "helmet";
 
 // Import routes
 import authRouter from "./routes/auth.js";
@@ -16,7 +15,7 @@ import errorRoute from "./routes/error.js";
 
 const app = express();
 const PORT = 3000;
-const host = "0.0.0.0"; // This binds the server to all available IP addresses
+const host = "0.0.0.0";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -36,7 +35,11 @@ app.use(
   })
 );
 
-app.use(logger("dev"));
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "../public")));

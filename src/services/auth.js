@@ -3,56 +3,67 @@ import { hashPassword } from "../utils/bcrypt.js";
 import { registerMessages } from "../constants/messages.js";
 
 export const createNewUser = async (username, email, password) => {
-  const hashedPassword = await hashPassword(password, 10);
+  try {
+    const hashedPassword = await hashPassword(password, 10);
 
-  const [user] = await pool.query(
-    `INSERT INTO users (username, email, password) VALUES (?,?,?)`,
-    [username, email, hashedPassword]
-  );
+    const [user] = await pool.query(
+      `INSERT INTO users (username, email, password) VALUES (?,?,?)`,
+      [username, email, hashedPassword]
+    );
 
-  if (user) {
+    if (user) {
+      return {
+        success: true,
+        message: registerMessages.registrationSuccess,
+      };
+    }
     return {
-      success: true,
-      message: registerMessages.registrationSuccess,
+      success: false,
+      message: registerMessages.registrationFailed,
     };
+  } catch (error) {
+    console.error(error);
   }
-  return {
-    success: false,
-    message: registerMessages.registrationFailed,
-  };
 };
 
 export const findUserByEmail = async (email) => {
-  const [user] = await pool.query(`SELECT * FROM users WHERE email =?`, [
-    email,
-  ]);
+  try {
+    const [user] = await pool.query(`SELECT * FROM users WHERE email =?`, [
+      email,
+    ]);
 
-  if (user.length) {
+    if (user.length) {
+      return {
+        success: true,
+        message: registerMessages.userFoundError,
+      };
+    }
     return {
-      success: true,
-      message: registerMessages.userFoundError,
+      success: false,
     };
+  } catch (error) {
+    console.error(error);
   }
-  return {
-    success: false,
-  };
 };
 
 export const findUserByUsername = async (username) => {
-  const [user] = await pool.query(`SELECT * FROM users WHERE username =?`, [
-    username,
-  ]);
+  try {
+    const [user] = await pool.query(`SELECT * FROM users WHERE username =?`, [
+      username,
+    ]);
 
-  
-  if (user.length) {
+    if (user.length) {
+      return {
+        success: true,
+        user,
+        message: registerMessages.userNameTakenError,
+      };
+    }
     return {
-      success: true,
-      user,
-      message: registerMessages.userNameTakenError,
+      success: false,
+      message: registerMessages.userNameAvailable,
     };
+  } catch (error) {
+    console.error(error);
   }
-  return {
-    success: false,
-    message: registerMessages.userNameAvailable,
-  };
 };

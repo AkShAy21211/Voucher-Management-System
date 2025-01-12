@@ -7,17 +7,26 @@ import {
   settingsPost,
 } from "../controllers/dashboard.js";
 import isAuthenticated from "../middleware/authenticate.js";
+import asyncHandler from "express-async-handler";
 
 const router = express.Router();
 
-router.get("/", isAuthenticated, dashboard);
-router.get("/generate-qr", generateQrPost);
+router.get("/", isAuthenticated, asyncHandler(dashboard));
+router.get("/generate-qr", isAuthenticated, asyncHandler(generateQrPost));
 
-// Route to print voucher PDF
-router.get("/print-voucher/:voucherNumber", generateAndPrintVocherPdf);
+router.get(
+  "/print-voucher/:voucherNumber",
+  isAuthenticated,
+  asyncHandler(generateAndPrintVocherPdf)
+);
 
-router.route("/settings").get(settings).put(settingsPost);
+router
+  .route("/settings")
+  .get(isAuthenticated, asyncHandler(settings))
+  .put(isAuthenticated, asyncHandler(settingsPost));
 
-router.post("/generate-qr", generateQrPost);
+router.post("/generate-qr", isAuthenticated, asyncHandler(generateQrPost));
+
+
 
 export default router;

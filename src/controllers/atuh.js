@@ -34,8 +34,6 @@ export const login = async (req, res) => {
 export const registerPost = async (req, res) => {
   const { username, email, password, confirmPassword } = req.body;
 
-
-
   // Check if password and confirm password match
   if (!username || !email || !password || !confirmPassword) {
     req.flash("error", registerMessages.allFieldsRequired);
@@ -48,7 +46,6 @@ export const registerPost = async (req, res) => {
   }
 
   const existingUser = await findUserByEmail(email);
-
 
   if (existingUser.success) {
     req.flash("error", existingUser.message);
@@ -69,7 +66,6 @@ export const registerPost = async (req, res) => {
 export const loginPost = async (req, res) => {
   const { username, password } = req.body;
   console.log(res.locals);
-  
 
   // Check if password and confirm password match
   if (!username || !password) {
@@ -85,7 +81,6 @@ export const loginPost = async (req, res) => {
   }
 
   const validPassword = await comparePassword(password, data.user[0].password);
-
 
   if (!validPassword) {
     req.flash("error", loginMessages.incorrectCredentials);
@@ -112,4 +107,19 @@ export const checkUserName = async (req, res) => {
     return res.status(400).json(existingUser);
   }
   return res.status(200).json(existingUser);
+};
+
+export const logout = async (req, res) => {
+  
+  delete req.session.user;
+
+  req.session.save((err) => {
+    if (err) {
+      req.flash("error", "Error clearing session.");
+      return res.redirect("/dashboard");
+    }
+
+    req.flash("success", "User logged out successfully.");
+    res.redirect("/sign-in");
+  });
 };
