@@ -15,6 +15,17 @@ export const dashboard = async (req, res) => {
   });
 };
 
+
+export const settings = async (req, res) => {
+  const TITLE = "settings";
+
+  return res.render("pages/settings", {
+    TITLE,
+    success: req.flash("success"),
+    error: req.flash("error"),
+  });
+};
+
 export const generateQrPost = async (req, res) => {
   const { voucher_code, qr_code_path, expiry_date } = await generateQr();
   const user_id = req.session?.user?.id;

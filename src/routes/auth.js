@@ -1,5 +1,4 @@
 import express from "express";
-import flash from "express-flash";
 import {
   checkUserName,
   login,
@@ -10,7 +9,6 @@ import {
 } from "../controllers/atuh.js";
 const router = express.Router();
 
-router.use(flash());
 
 router.get("/", loginRedirect);
 

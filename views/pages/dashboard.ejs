@@ -1,12 +1,18 @@
 <!-- Dashboard Header -->
 <header class="bg-gray-800 p-6 mb-8">
   <div class="container mx-auto flex justify-between items-center">
-    <h1 class="text-3xl font-bold text-white">QR-MATE</h1>
     <a
-      href="/sign-out"
-      class="bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-      >Sign Out</a
+      href="/dashboard"
+      class="text-white font-bold text-lg focus:outline-none focus:ring-0 focus:ring-offset-0"
     >
+      <h1 class="text-3xl font-bold text-white">QR-MATE</h1>
+    </a>
+    <a
+      href="/dashboard/settings"
+      class="font-bold text-white py-2 px-4 rounded-md focus:outline-none focus:ring-0 focus:ring-offset-0"
+    >
+      <i class="fa-solid fa-gear text-2xl"></i>
+    </a>
   </div>
 </header>
 
@@ -28,7 +34,9 @@
 
   <!-- Existing Vouchers Section -->
   <section class="bg-white p-6 rounded-lg shadow-lg">
-    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Existing Vouchers</h2>
+    <h2 class="text-2xl font-semibold text-gray-800 mb-4 font-serif">
+      Existing Vouchers
+    </h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
       <!-- Sample Voucher Item -->
       <% if (vouchers && vouchers.length) { %> <% vouchers.forEach((voucher) =>
@@ -62,8 +70,10 @@
         </div>
       </div>
 
-      <% }) %> <% } %>
-      <!-- Add more vouchers dynamically here -->
+      <% }) %> <% } else{%>
+
+      <p class="text-gray-600 font-semibold">No vouchers generated yet.</p>
+      <%} %>
     </div>
   </section>
 </main>
@@ -95,7 +105,6 @@
         setTimeout(() => qrMessage.remove(), 5000);
       }
     });
-
 
   function downloadVoucherPDF(voucherNumber) {
     // Send an HTTP GET request to the backend route that generates and serves the PDF

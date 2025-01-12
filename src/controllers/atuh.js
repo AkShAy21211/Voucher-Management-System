@@ -22,8 +22,7 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
   const TITLE = "login";
-
-  console.log(req.session);
+  console.log(res.locals);
 
   return res.render("pages/login", {
     TITLE,
@@ -34,6 +33,8 @@ export const login = async (req, res) => {
 
 export const registerPost = async (req, res) => {
   const { username, email, password, confirmPassword } = req.body;
+
+
 
   // Check if password and confirm password match
   if (!username || !email || !password || !confirmPassword) {
@@ -47,6 +48,7 @@ export const registerPost = async (req, res) => {
   }
 
   const existingUser = await findUserByEmail(email);
+
 
   if (existingUser.success) {
     req.flash("error", existingUser.message);
@@ -66,6 +68,8 @@ export const registerPost = async (req, res) => {
 
 export const loginPost = async (req, res) => {
   const { username, password } = req.body;
+  console.log(res.locals);
+  
 
   // Check if password and confirm password match
   if (!username || !password) {
@@ -81,6 +85,7 @@ export const loginPost = async (req, res) => {
   }
 
   const validPassword = await comparePassword(password, data.user[0].password);
+
 
   if (!validPassword) {
     req.flash("error", loginMessages.incorrectCredentials);
