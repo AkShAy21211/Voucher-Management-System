@@ -6,7 +6,7 @@
   "scripts": {
     "build:css": "npx tailwindcss -i ./public/stylesheets/style.css -o ./public/stylesheets/index.css --minify",
     "dev": "nodemon ./src/server.js",
-    "start": "nodemon ./src/server.js"
+    "start": "node ./src/server.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
