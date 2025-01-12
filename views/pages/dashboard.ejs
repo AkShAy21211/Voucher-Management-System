@@ -31,10 +31,13 @@
     <h2 class="text-2xl font-semibold text-gray-800 mb-4">Existing Vouchers</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
       <!-- Sample Voucher Item -->
+      <% if (vouchers && vouchers.length) { %> <% vouchers.forEach((voucher) =>
+      { %>
+
       <div class="bg-gray-200 p-4 rounded-lg shadow-md">
         <div class="flex justify-between items-center mb-3">
           <h3 class="text-xl font-semibold text-gray-800">
-            Voucher #1234567890
+            #<%= voucher.voucher_code %>
           </h3>
           <button
             class="bg-green-500 text-white py-1 px-4 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -43,12 +46,23 @@
             Print PDF
           </button>
         </div>
-        <p class="text-gray-600">Generated on: 01/15/2025</p>
-        <p class="text-gray-600">Expiry Date: 01/16/2025</p>
-        <div class="mt-3 flex justify-center">
-          <img src="path-to-qr-code-image" alt="QR Code" class="w-24 h-24" />
+        <p class="text-gray-600 font-semibold">
+          Generated on: <%= new
+          Date(voucher.generated_date).toLocaleDateString()%>
+        </p>
+        <p class="text-gray-600 font-semibold">
+          Expiry Date: <%= new Date(voucher.expiry_date).toLocaleDateString()%>
+        </p>
+        <div class="mt-3 flex justify-start">
+          <img
+            src="<%= voucher.qr_code_path%>"
+            alt="QR Code"
+            class="w-24 h-24"
+          />
         </div>
       </div>
+
+      <% }) %> <% } %>
       <!-- Add more vouchers dynamically here -->
     </div>
   </section>

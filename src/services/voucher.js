@@ -19,7 +19,6 @@ export const createNewVoucher = async (
     user_id,
   ]);
 
-  
   if (voucher) {
     return {
       success: true,
@@ -29,5 +28,21 @@ export const createNewVoucher = async (
   return {
     success: false,
     message: voucherMessages.voucherCreationFailed,
+  };
+};
+
+export const getAllVouchers = async (user_id) => {
+  // 5. Save the voucher details to the database
+  const query = "SELECT * FROM vouchers WHERE user_id = ?";
+
+  const [vouchers] = await pool.execute(query, [user_id]);
+
+  if (vouchers.length) {
+    return {
+      vouchers,
+    };
+  }
+  return {
+    vouchers: [],
   };
 };

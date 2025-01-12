@@ -1,23 +1,25 @@
-import { createNewVoucher } from "../services/voucher.js";
+import { createNewVoucher, getAllVouchers } from "../services/voucher.js";
 import { generateQr } from "../utils/qr.js";
 
 export const dashboard = async (req, res) => {
   const TITLE = "dashboard";
+  const user_id = req.session?.user?.id;
+  const {vouchers} = await getAllVouchers(user_id);
 
+  
   return res.render("pages/dashboard", {
     TITLE,
+    vouchers,
     success: req.flash("success"),
     error: req.flash("error"),
   });
 };
 
 export const generateQrPost = async (req, res) => {
-  const { voucher_code,qr_code_path,expiry_date } = await generateQr();
+  const { voucher_code, qr_code_path, expiry_date } = await generateQr();
   const user_id = req.session?.user?.id;
 
-
-  
-  if (!voucher_code || !expiry_date ||!qr_code_path) {
+  if (!voucher_code || !expiry_date || !qr_code_path) {
     req.flash("error", "Failed to generate QR code");
     return res.redirect("/dashboard");
   }
@@ -29,7 +31,6 @@ export const generateQrPost = async (req, res) => {
     user_id
   );
 
-  
   if (voucher.success) {
     return res.status(201).json(voucher);
   }

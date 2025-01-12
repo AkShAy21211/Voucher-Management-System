@@ -8,7 +8,9 @@ const router = express.Router();
 router.use(flash());
 
 router.get("/", isAuthenticated, dashboard);
+router.get("/generate-qr", generateQrPost);
 
 router.post("/generate-qr", generateQrPost);
+
 
 export default router;
