@@ -41,6 +41,7 @@
       <i class="fa-solid fa-gear text-2xl"></i>
     </a>
     </div>
+    <%- include('../partials/error') %>
     <p id="qrMessage" class="mt-4"></p>
   </section>
 
@@ -107,6 +108,8 @@
       );
       const data = await response.json();
 
+      console.log(data);
+      
       if (data.success) {
         qrMessage.textContent = data.message;
         qrMessage.style.color = "green";

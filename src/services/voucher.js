@@ -78,13 +78,16 @@ export const getVoucherSettings = async (user_id) => {
     const query = "SELECT * FROM settings WHERE user_id =?";
     const [settings] = await pool.execute(query, [user_id]);
 
+    
     if (settings.length) {
       return {
+        success: true,
         settings: settings[0],
+
       };
     }
     return {
-      settings: [],
+      success: false,
     };
   } catch (error) {
     console.error("Error fetching voucher settings:", error);

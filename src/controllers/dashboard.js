@@ -26,9 +26,8 @@ export const settings = async (req, res) => {
   const TITLE = "settings";
   const user_id = req.session?.user?.id;
 
-  const {settings} = await getVoucherSettings(user_id);
+  const { settings } = await getVoucherSettings(user_id);
 
-  
   return res.render("pages/settings", {
     TITLE,
     settings,
@@ -66,7 +65,12 @@ export const settingsPost = async (req, res) => {
 export const generateQrPost = async (req, res) => {
   const user_id = req.session?.user?.id;
 
-  const { settings } = await getVoucherSettings(user_id);
+  const data = await getVoucherSettings(user_id);
+
+  if (!data.success) {
+    return res.status(400).json({...data,message:voucherMessages.voucherSettingsNotFound});
+  }
+  const { settings } = data;
 
   const { voucher_code, qr_code_path, expiry_date } = await generateQr(
     settings.expiry_days

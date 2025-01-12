@@ -30,7 +30,7 @@ export const voucherMessages = {
   voucherSettingsCreationFailed: "Failed to create voucher settings",
   voucherSettingsUpdated: "Voucher settings updated successfully",
   voucherSettingsUpdateFailed: "Failed to update voucher settings",
-  voucherSettingsNotFound: "Voucher settings not found",
+  voucherSettingsNotFound: "Missing voucher settings please add", 
   voucherSettingsDeleted: "Voucher settings deleted successfully",
 };
 
