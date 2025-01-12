@@ -14,8 +14,7 @@ import dashboardRouter from "./routes/dashboard.js";
 import errorRoute from "./routes/error.js";
 
 const app = express();
-const PORT = 3000;
-const host = "0.0.0.0";
+const PORT = process.env.PORT||3000;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -57,6 +56,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.listen(PORT, host, () => {
+app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
