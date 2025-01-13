@@ -105,8 +105,6 @@ export const generateAndPrintVocherPdf = async (req, res) => {
   const { settings } = await getVoucherSettings(user_id);
   const { voucher } = await getVloucherByNumber(voucherNumber);
 
-
-
   generatePDF(
     voucher?.voucher_code,
     voucher?.expiry_date,
@@ -139,4 +137,23 @@ export const deleteVoucher = async (req, res) => {
 
   req.flash("error", data.message);
   return res.status(400).json(data);
+};
+
+export const validateVoucher = async (req, res) => {
+  const { voucherNumber } = req.params;
+
+  const { voucher } = await getVloucherByNumber(voucherNumber);
+
+  if (!voucher) {
+    return res.render("/pages/voucher-status", { message: "Voucher not found!" });
+  }
+
+  const expiryDate = new Date(voucher.expiry_date);
+  const currentDate = new Date();
+
+  if (currentDate > expiryDate) {
+    res.render("pages/voucher-status", { message: "Voucher has expired." });
+  } else {
+    res.render("pages/voucher-status", { message: "Voucher is valid!" });
+  }
 };

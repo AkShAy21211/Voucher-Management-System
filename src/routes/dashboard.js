@@ -6,6 +6,7 @@ import {
   generateQrPost,
   settings,
   settingsPost,
+  validateVoucher,
 } from "../controllers/dashboard.js";
 import isAuthenticated from "../middleware/authenticate.js";
 import asyncHandler from "express-async-handler";
@@ -22,6 +23,8 @@ router.get(
 );
 
 router.delete("/voucher/:voucherId", isAuthenticated,asyncHandler(deleteVoucher))
+
+router.get("/check-voucher/:voucherNumber",asyncHandler(validateVoucher))
 
 router
   .route("/settings")
